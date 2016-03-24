@@ -31,13 +31,17 @@
 &emsp;&emsp;如果没用过，可以参考[官网](https://github.com/leeluolee/mcss);这里只说下存在的问题；虽然这些预处理工具可以让我们更简洁的书写样式，但是本质上它还是单纯的样式模块化，并没有解决一个完整控件的组件化；
 
 ## 组件化样式参考
+
 ![理想的组件组织方式](http://haitao.nos.netease.com/f6798300b49f46bfb0580caebf12484d.jpg)
 &emsp;&emsp;上图是我们理想的组织一个组件的方式，包括组件的模板，组件的逻辑处理代码以及组件的样式；在使用过程中，我们只需要引入js，直接使用组件，无需关注它的模板和它的样式就可以展现完整的组件功能；一些工具已经实现了这样的功能，下面分别介绍下；
 
 ### NEJ
 &emsp;&emsp;在我们每次写一个NEJ的组件时，都会在最开始指定对应的模板和样式， 如下：这里有一组方法`_$pushCSSText`和`_$dumpCSSText`， 前者将样式文件解析后存放在cache中，后者在head尾部生成一个style标签，将cache中的所有样式join后放入其中；
+
 ![](http://haitao.nos.netease.com/73f663df83d14e6aa5fb2d56a9ed4a16.jpg)
+
 &emsp;&emsp;首先，样式文件是这样声明的,每个样式前都加了一个`.#<uispace>`
+
 ![](http://haitao.nos.netease.com/7fddf0f3adf84a358559e1982b93a9a5.jpg)
 
 ```javascript
@@ -62,6 +66,7 @@ _p._$pushCSSText = (function(){
 ```
 &emsp;&emsp;这段代码会匹配`#<xxx>`这段字符，将其替换成一个uniqId，放入cache中，最后返回这个uniqId，返回的目的是在组件的最外层元素中加上这个class名，这样就可以与样式关联起来了；
 再调用_$dumpCssText方法的时候，统一将cache中的样式一次性放入到页面中， 如下图：
+
 ![](http://haitao.nos.netease.com/e424212ca694486ab864ab3ebfab42c2.jpg)
 
 
@@ -76,6 +81,7 @@ _p._$pushCSSText = (function(){
 </script> 
 ```
 &emsp;&emsp;由于它的兼容性比较差，所以目前基本没有很多相关的应用出现：
+
 ![](http://haitao.nos.netease.com/4f05b025d0aa4c4e8d79955bb8d5bfdb.jpg)
 
 ### ReactJS Inline Style
@@ -93,6 +99,7 @@ var MyDiv = React.createClass({
 });
 ```
 &emsp;&emsp;上面说了使用InlineStyle目前是有争议的，所以React中css样式的解决方案也有很多：他们也基本使用了这里介绍的几种方式，生成uniqId，shadowDom等；
+
 ![](http://haitao.nos.netease.com/865742c5e8514594a48a732267e84f44.jpg)
 
 ### CSS Modules
